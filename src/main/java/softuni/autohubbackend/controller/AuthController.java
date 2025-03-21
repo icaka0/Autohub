@@ -46,12 +46,4 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<?> testAuth() {
-        System.out.println("=== API /api/auth/test endpoint called ===");
-        return ResponseEntity.ok().body(Map.of(
-                "message", "Auth API is working!",
-                "timestamp", System.currentTimeMillis()
-        ));
-    }
 }

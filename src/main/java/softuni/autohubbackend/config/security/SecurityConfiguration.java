@@ -17,8 +17,12 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
+
+    private final CorsConfigurationSource corsConfigurationSource;
     @Autowired
-    private CorsConfigurationSource corsConfigurationSource;
+    public SecurityConfiguration(CorsConfigurationSource corsConfigurationSource) {
+        this.corsConfigurationSource = corsConfigurationSource;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -27,7 +31,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/", "/register", "/login", "/api/auth/**", "/api/test").permitAll()
+                        .requestMatchers("/", "/register", "/login", "/api/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form.disable())

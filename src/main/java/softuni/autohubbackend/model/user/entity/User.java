@@ -9,6 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Builder
+@Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -38,7 +39,7 @@ public class User {
     @Column(name = "last_name", nullable = true)
     private String lastName;
 
-    @Column(name = "phone_number",length = 50,nullable = false)
+    @Column(name = "phone_number",nullable = false)
     private String phoneNumber;
 
 
