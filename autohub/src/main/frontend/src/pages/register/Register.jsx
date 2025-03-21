@@ -248,36 +248,6 @@ const Register = () => {
               />
               {errors.phoneNumber && <span className="field-error">{errors.phoneNumber}</span>}
             </div>
-            {/*11111111111111111111111111111111111111111111111111 */}
-            <div className="form-group" style={{marginTop: '20px', borderTop: '1px solid #eee', paddingTop: '10px'}}>
-              
-            <button
-  type="button"
-  onClick={async () => {
-    try {
-      console.log('Testing API connection...');
-      // Try this simpler endpoint first
-      const resp = await fetch('http://localhost:8080/api/test', { 
-        method: 'GET' 
-      });
-      console.log('Basic API test status:', resp.status);
-      
-      // If that works, try the auth test endpoint
-      const authResp = await fetch('http://localhost:8080/api/auth/test', {
-        method: 'GET'
-      });
-      console.log('Auth API test status:', authResp.status);
-      
-      const data = await authResp.json();
-      console.log('Auth test response:', data);
-    } catch (err) {
-      console.error('API test failed:', err);
-    }
-  }}
->
-  Test API Connection
-</button>
-            </div>
             <button 
               type="submit" 
               className="btn btn-primary"

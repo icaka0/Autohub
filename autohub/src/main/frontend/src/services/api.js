@@ -6,21 +6,26 @@
  * @returns {Promise<Response>} The fetch response object
  */
 export const loginUser = async (credentials) => {
-  
-  
-  const response = await fetch(`http://localhost:8080/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(credentials),
-    credentials: 'include',
-    mode: 'cors',
-    redirect: 'manual'
-  });
-  
-  console.log('Login response status:', response.status);
-  return response;
+  try {
+    console.log('Sending login request to:', 'http://localhost:8080/login');
+    
+    const response = await fetch(`http://localhost:8080/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(credentials),
+      credentials: 'include',
+      mode: 'cors',
+      redirect: 'manual'
+    });
+    
+    console.log('Login response status:', response.status);
+    return response;
+  } catch (error) {
+    console.error('Login fetch error:', error);
+    throw error;
+  }
 };
 
 /**
@@ -32,6 +37,7 @@ export const loginUser = async (credentials) => {
  * @param {string} userData.email - User's email address
  * @param {string} userData.password - User's password
  * @param {string} userData.confirmPassword - Password confirmation
+ * @param {string} userData.phoneNumber - User's phone number
  * @returns {Promise<Response>} The fetch response object
  */
 export const registerUser = async (userData) => {
