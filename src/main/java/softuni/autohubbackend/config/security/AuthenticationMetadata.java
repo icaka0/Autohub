@@ -1,6 +1,5 @@
 package softuni.autohubbackend.config.security;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -26,7 +25,6 @@ public class AuthenticationMetadata implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.name());
-
         return List.of(authority);
     }
 
@@ -38,5 +36,26 @@ public class AuthenticationMetadata implements UserDetails {
     @Override
     public String getUsername() {
         return this.username;
+    }
+
+    // Add these required methods from UserDetails interface
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
