@@ -24,7 +24,7 @@ const Home = () => {
           <p className="hero-subtitle">Buy, Sell, and Rent Classic and Modern Vehicles</p>
           {/* Action buttons for main user functions */}
           <div className="hero-buttons">
-            <button className="btn btn-primary">Browse Cars</button>
+            <Link to="/browse" className="btn btn-primary">Browse Vehicles</Link>
             <button className="btn btn-secondary">Sell Your Car</button>
             <button className="btn btn-secondary">Rent a Car</button>
           </div>
