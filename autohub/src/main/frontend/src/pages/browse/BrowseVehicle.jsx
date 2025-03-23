@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './BrowseVehicle.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { checkAuthStatus, logoutUser } from '../../services/api';
 
 const BrowseVehicle = () => {
   const [vehicles, setVehicles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   
   // Filter state
   const [filters, setFilters] = useState({
@@ -107,6 +111,31 @@ const BrowseVehicle = () => {
     }, 1000);
   }, []);
 
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const userData = await checkAuthStatus();
+        setCurrentUser(userData);
+      } catch (error) {
+        console.error('Error checking auth status:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    checkAuth();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      setCurrentUser(null);
+      navigate('/');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
   // Handle filter changes
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -124,10 +153,19 @@ const BrowseVehicle = () => {
             <h1 className="logo">AutoHub</h1>
           </Link>
         </div>
-        <div className="auth-buttons">
-          <Link to="/login" className="btn login-btn">Login</Link>
-          <Link to="/register" className="btn register-btn">Register</Link>
-        </div>
+        {loading ? (
+          <div className="loading">Loading...</div>
+        ) : currentUser ? (
+          <div className="nav-buttons">
+            <Link to="/profile" className="btn profile-btn">Profile</Link>
+            <button onClick={handleLogout} className="btn logout-btn">Logout</button>
+          </div>
+        ) : (
+          <div className="nav-buttons">
+            <Link to="/login" className="btn login-btn">Login</Link>
+            <Link to="/register" className="btn register-btn">Register</Link>
+          </div>
+        )}
       </header>
       
       <main className="browse-main">
