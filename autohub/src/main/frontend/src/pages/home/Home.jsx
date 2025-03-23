@@ -1,8 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Home.scss';
+import { checkAuthStatus, logoutUser } from '../../services/api';
 
 const Home = () => {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  
+  // Check auth status when component mounts
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        console.log('Home: Checking authentication status...');
+        const userData = await checkAuthStatus();
+        console.log('Home: Authentication result:', userData);
+        setCurrentUser(userData);
+      } catch (error) {
+        console.error('Error checking auth status:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    checkAuth();
+  }, []);
+  
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      // Reset user and reload page
+      setCurrentUser(null);
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+  
   return (
     <div className="home">
       {/* Header section with logo and authentication buttons */}
@@ -11,9 +44,20 @@ const Home = () => {
           <h1 className="logo">AutoHub</h1>
         </div>
         <div className="auth-buttons">
-          {/* Navigation links styled as buttons */}
-          <Link to="/login" className="btn login-btn">Login</Link>
-          <Link to="/register" className="btn register-btn">Register</Link>
+          {loading ? (
+            <span>Loading...</span>
+          ) : currentUser ? (
+            <>
+              <span className="welcome-message">Welcome, {currentUser.firstName}!</span>
+              <Link to="/profile" className="btn profile-btn">Profile</Link>
+              <button onClick={handleLogout} className="btn logout-btn">Logout</button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="btn login-btn">Login</Link>
+              <Link to="/register" className="btn register-btn">Register</Link>
+            </>
+          )}
         </div>
       </header>
       

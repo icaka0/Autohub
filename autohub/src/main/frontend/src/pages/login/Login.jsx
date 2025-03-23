@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './login.scss';
 import { loginUser } from '../../services/api';
 
@@ -30,22 +31,33 @@ const Login = () => {
     setError('');
     
     try {
-      // Call login API endpoint
+      // Log request data
+      console.log('Login request:', {
+        username: formData.username,
+        password: formData.password.substring(0, 1) + '...' // Log just first character for security
+      });
+      
       const response = await loginUser({
         username: formData.username,
         password: formData.password
       });
       
+      console.log('Login response status:', response.status);
+      console.log('Login response headers:', Object.fromEntries([...response.headers]));
+      
+      // Try to get response body whether it succeeds or fails
+      const responseBody = await response.text();
+      console.log('Response body:', responseBody);
+      
       if (response.ok) {
+        console.log('Login successful, redirecting to home page...');
         // Redirect on successful login
         window.location.href = '/';
       } else {
-        // Extract and display error message from response
-        const errorData = await response.json().catch(() => ({}));
-        setError(errorData.message || 'Invalid username or password. Please try again.');
+        // Set error message
+        setError('Invalid username or password. Please try again.');
       }
     } catch (error) {
-      // Handle network or other errors
       console.error('Login error:', error);
       setError('Network error. Please check your connection and try again.');
     } finally {
@@ -103,7 +115,7 @@ const Login = () => {
           </form>
           {/* Links for registration and password recovery */}
           <div className="form-footer">
-            <p>Don't have an account? <a href="/register">Register</a></p>
+            <p>Don't have an account? <Link to="/register">Register</Link></p>
             <p><a href="/forgot-password">Forgot password?</a></p>
           </div>
         </div>

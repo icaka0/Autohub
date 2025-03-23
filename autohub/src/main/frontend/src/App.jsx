@@ -1,9 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/home/Home';
-import Login from './pages/login/Login';
+import Login from './pages/login/login';
 import Register from './pages/register/Register';
 import BrowseVehicle from './pages/browse/BrowseVehicle';
+import UserProfile from './pages/UserProfile/UserProfile';
 import './App.css';
 import './pages/login/login.scss';
 import './pages/register/register.scss';
@@ -20,6 +21,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/browse" element={<BrowseVehicle />} />
+          <Route path="/profile" element={<UserProfile />} />
   
           <Route path="*" element={<Navigate to="/" replace />} /> 
           {/* redirects the user to the home page if they try to access a page that doesn't exist */}
