@@ -16,6 +16,7 @@ import './pages/register/register.scss';
 import { AuthProtectedRoute, OwnerProtectedRoute, AdminProtectedRoute } from './components/ProtectedRoute';
 import Favorites from './pages/favorites/Favorites';
 import { Link } from 'react-router-dom';
+import { getVehicleAd } from './services/api';
 
 function App() {
 

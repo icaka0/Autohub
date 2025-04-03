@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getVehicleAdById, checkAuthStatus, logoutUser, deleteVehicleAd, checkFavoriteStatus, addToFavorites, removeFromFavorites } from '../../services/api';
+import { getVehicleAd, checkAuthStatus, logoutUser, deleteVehicleAd, checkFavoriteStatus, addToFavorites, removeFromFavorites, getPriceHistory } from '../../services/api';
 import './VehicleAd.scss';
 
 const VehicleAd = () => {
@@ -15,13 +15,17 @@ const VehicleAd = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoritesLoading, setFavoritesLoading] = useState(false);
+  const [showPriceHistory, setShowPriceHistory] = useState(false);
+  const [priceHistory, setPriceHistory] = useState([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [historyError, setHistoryError] = useState(null);
   
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         // Get the vehicle ad data
-        const adData = await getVehicleAdById(id);
+        const adData = await getVehicleAd(id);
         setAd(adData);
         
         // Check authentication status properly
@@ -164,6 +168,26 @@ const VehicleAd = () => {
     }
   };
   
+  const handlePriceHistoryClick = async () => {
+    console.log('Price history button clicked');
+    setShowPriceHistory(true);
+    
+    if (priceHistory.length === 0 && !historyLoading) {
+      try {
+        console.log('Fetching price history for ad ID:', id);
+        setHistoryLoading(true);
+        const data = await getPriceHistory(id);
+        console.log('Price history data received:', data);
+        setPriceHistory(data);
+      } catch (err) {
+        console.error('Error fetching price history:', err);
+        setHistoryError('Failed to load price history');
+      } finally {
+        setHistoryLoading(false);
+      }
+    }
+  };
+  
   if (loading) return <div className="loading">Loading vehicle details...</div>;
   if (error) return <div className="error">{error}</div>;
   if (!ad) return <div className="error">Vehicle ad not found</div>;
@@ -262,7 +286,26 @@ const VehicleAd = () => {
               <div className="vehicle-info-main">
                 <div className="price-section">
                   <div className="price-label">Price</div>
-                  <div className="price-value">{formatPrice(ad.price)}</div>
+                  <div className="price-value">
+                    <span className="price-value">€{ad.price}</span>
+                    <button 
+                      onClick={handlePriceHistoryClick}
+                      style={{
+                        backgroundColor: '#007bff',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        padding: '8px 15px',
+                        fontSize: '1rem',
+                        fontWeight: 'bold',
+                        cursor: 'pointer',
+                        marginLeft: '15px',
+                        boxShadow: '0 2px 5px rgba(0,0,0,0.3)'
+                      }}
+                    >
+                      PRICE HISTORY
+                    </button>
+                  </div>
                 </div>
                 
                 <div className="specs-table">
@@ -423,6 +466,105 @@ const VehicleAd = () => {
           <>🤍 Add to Favorites</>
         )}
       </button>
+      
+      {showPriceHistory && (
+        <div className="price-history-modal" style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999
+        }}>
+          <div className="price-history-content" style={{
+            backgroundColor: 'white',
+            borderRadius: '8px',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+            width: '90%',
+            maxWidth: '500px',
+            maxHeight: '90vh',
+            overflow: 'auto'
+          }}>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '16px 20px',
+              borderBottom: '1px solid #eee',
+              backgroundColor: '#333',
+              color: 'white'
+            }}>
+              <h4 style={{margin: 0, fontSize: '1.25rem'}}>Price History</h4>
+              <button onClick={() => setShowPriceHistory(false)} style={{
+                background: 'none',
+                border: 'none',
+                fontSize: '1.5rem',
+                cursor: 'pointer',
+                color: 'white'
+              }}>×</button>
+            </div>
+            
+            {historyLoading && <div style={{padding: '20px', textAlign: 'center'}}>Loading history...</div>}
+            {historyError && <div style={{padding: '20px', textAlign: 'center', color: '#e74c3c'}}>{historyError}</div>}
+            
+            {!historyLoading && !historyError && priceHistory.length === 0 && (
+              <div style={{
+                padding: '30px 20px', 
+                textAlign: 'center',
+                color: '#666'
+              }}>
+                <i className="fas fa-info-circle" style={{fontSize: '24px', marginBottom: '10px', color: '#007bff'}}></i>
+                <p>No price changes recorded for this vehicle.</p>
+                <p style={{fontSize: '0.9rem', marginTop: '10px'}}>Price changes will appear here.</p>
+              </div>
+            )}
+            
+            {!historyLoading && !historyError && priceHistory.length > 0 && (
+              <table style={{
+                width: '100%', 
+                borderCollapse: 'collapse',
+                backgroundColor: '#fff'
+              }}>
+                <thead>
+                  <tr style={{backgroundColor: '#f0f0f0'}}>
+                    <th style={{padding: '12px 16px', textAlign: 'left', borderBottom: '1px solid #ddd'}}>Date and Time</th>
+                    <th style={{padding: '12px 16px', textAlign: 'left', borderBottom: '1px solid #ddd'}}>Change</th>
+                    <th style={{padding: '12px 16px', textAlign: 'left', borderBottom: '1px solid #ddd'}}>Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {priceHistory.map((entry) => {
+                    const priceDiff = entry.newPrice - entry.oldPrice;
+                    
+                    return (
+                      <tr key={entry.id} style={{borderBottom: '1px solid #eee'}}>
+                        <td style={{padding: '12px 16px', textAlign: 'left'}}>
+                          {new Date(entry.changedAt).toLocaleString('en-US')}
+                        </td>
+                        <td style={{
+                          padding: '12px 16px', 
+                          textAlign: 'left', 
+                          color: priceDiff < 0 ? '#2ecc71' : priceDiff > 0 ? '#e74c3c' : '#333',
+                          fontWeight: 'bold'
+                        }}>
+                          {priceDiff < 0 ? '- ' + Math.abs(priceDiff) : priceDiff > 0 ? '+ ' + priceDiff : '0'} €
+                        </td>
+                        <td style={{padding: '12px 16px', textAlign: 'left', fontWeight: 'bold'}}>
+                          {entry.newPrice} €
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

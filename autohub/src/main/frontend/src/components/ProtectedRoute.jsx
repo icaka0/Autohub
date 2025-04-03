@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate, useParams, useNavigate } from 'react-router-dom';
-import { checkAuthStatus, getVehicleAdById } from '../services/api';
+import { checkAuthStatus, getVehicleAd } from '../services/api';
 
 // Component to protect routes that require authentication
 export const AuthProtectedRoute = ({ children }) => {
@@ -47,7 +47,7 @@ export const OwnerProtectedRoute = ({ children }) => {
         const userData = await checkAuthStatus();
         
         // Then check if they own the ad
-        const adData = await getVehicleAdById(id);
+        const adData = await getVehicleAd(id);
         
         // Check if current user is the owner
         if (userData.id === adData.seller.id) {

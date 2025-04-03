@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './BrowseVehicle.scss';
 import { Link, useNavigate } from 'react-router-dom';
-import { checkAuthStatus, logoutUser, getAllVehicleAds } from '../../services/api';
+import { checkAuthStatus, logoutUser, getAllVehicleAds, getVehicleAd } from '../../services/api';
 
 const BrowseVehicle = () => {
   const [vehicles, setVehicles] = useState([]);

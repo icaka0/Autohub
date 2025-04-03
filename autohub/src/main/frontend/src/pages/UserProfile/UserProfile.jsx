@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './UserProfile.scss';
-import { checkAuthStatus, logoutUser, getUserVehicleAds, updateVehicleAdStatus } from '../../services/api';
+import { checkAuthStatus, logoutUser, getUserVehicleAds, updateVehicleAdStatus, getVehicleAd } from '../../services/api';
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);

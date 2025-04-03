@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import './EditVehicleAd.scss';
-import { getVehicleAdById, updateVehicleAd, checkAuthStatus, logoutUser } from '../../services/api';
+import { getVehicleAd, updateVehicleAd, checkAuthStatus, logoutUser } from '../../services/api';
 
 const EditVehicleAd = () => {
   const { id } = useParams();
@@ -44,7 +44,7 @@ const EditVehicleAd = () => {
         setCurrentUser(userData);
         
         // Fetch the ad details
-        const adData = await getVehicleAdById(id);
+        const adData = await getVehicleAd(id);
         setOriginalAd(adData);
         
         // Check if the current user is the owner of the ad

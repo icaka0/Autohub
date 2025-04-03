@@ -276,15 +276,17 @@ export const getAllVehicleAds = async (filters = {}) => {
 };
 
 // Get a single vehicle ad by ID
-export const getVehicleAdById = async (adId) => {
+export const getVehicleAd = async (id) => {
   try {
-    const response = await fetch(`http://localhost:8080/api/vehicle-ads/${adId}`, {
+    // Add cache-busting timestamp parameter
+    const timestamp = new Date().getTime();
+    const response = await fetch(`http://localhost:8080/api/vehicle-ads/${id}?_=${timestamp}`, {
       credentials: 'include',
       mode: 'cors'
     });
     
     if (!response.ok) {
-      throw new Error(`Failed to fetch ad: ${response.status}`);
+      throw new Error(`Failed to fetch vehicle ad: ${response.status}`);
     }
     
     return await response.json();
@@ -454,5 +456,33 @@ export const checkFavoriteStatus = async (adId) => {
   } catch (error) {
     console.error('Error checking favorite status:', error);
     return false;
+  }
+};
+
+/**
+ * Get price history for a vehicle ad
+ * @param {string} adId - ID of the vehicle ad
+ * @returns {Promise<Array>} List of price history entries
+ */
+export const getPriceHistory = async (adId) => {
+  try {
+    console.log('Calling getPriceHistory API for adId:', adId);
+    const response = await fetch(`http://localhost:8080/api/vehicle-ads/${adId}/price-history`, {
+      credentials: 'include',
+      mode: 'cors'
+    });
+    
+    if (!response.ok) {
+      console.error(`Failed to fetch price history: ${response.status}`);
+      console.error('Response:', await response.text());
+      throw new Error(`Failed to fetch price history: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    console.log('Price history data from API:', data);
+    return data;
+  } catch (error) {
+    console.error('Error in getPriceHistory API call:', error);
+    throw error;
   }
 };

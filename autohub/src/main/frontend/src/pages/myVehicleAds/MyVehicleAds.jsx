@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './MyVehicleAds.scss';
-import { checkAuthStatus, getUserVehicleAds, updateVehicleAdStatus, deleteVehicleAd, logoutUser } from '../../services/api';
+import { checkAuthStatus, getUserVehicleAds, updateVehicleAdStatus, deleteVehicleAd, logoutUser, getVehicleAd } from '../../services/api';
 
 const MyVehicleAds = () => {
   const navigate = useNavigate();
