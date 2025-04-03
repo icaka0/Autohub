@@ -24,6 +24,10 @@ const BrowseVehicle = () => {
     vehicleType: ''
   });
 
+  // Add these state variables near your other state declarations
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(9); // Changed from 8 to 9 ads per page
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -125,6 +129,9 @@ const BrowseVehicle = () => {
       maximumFractionDigits: 0
     }).format(price);
   };
+
+  // Add this computed value after your useEffect hooks
+  const totalPages = Math.ceil(vehicles.length / itemsPerPage);
 
   return (
     <div className="browse">
@@ -281,7 +288,10 @@ const BrowseVehicle = () => {
           
           <div className="results-section">
             <div className="results-header">
-              <h3>{vehicles.length} Vehicles Found</h3>
+              <h3>
+                {vehicles.length} Vehicles Found
+                {totalPages > 1 && ` (Showing ${Math.min(vehicles.length, (currentPage - 1) * itemsPerPage + 1)}-${Math.min(vehicles.length, currentPage * itemsPerPage)})`}
+              </h3>
               <div className="sort-controls">
                 <label htmlFor="sort">Sort by:</label>
                 <select id="sort" name="sort">
@@ -301,7 +311,10 @@ const BrowseVehicle = () => {
             ) : (
               vehicles.length > 0 ? (
                 <div className="vehicle-grid">
-                  {vehicles.map(vehicle => (
+                  {vehicles.slice(
+                    (currentPage - 1) * itemsPerPage, 
+                    currentPage * itemsPerPage
+                  ).map(vehicle => (
                     <div className="vehicle-card" key={vehicle.id}>
                       <div className="vehicle-image">
                         <img 
@@ -346,10 +359,28 @@ const BrowseVehicle = () => {
             )}
             
             <div className="pagination">
-              <button className="btn page-btn active">1</button>
-              <button className="btn page-btn">2</button>
-              <button className="btn page-btn">3</button>
-              <button className="btn page-btn">Next →</button>
+              {totalPages > 1 ? (
+                <>
+                  {Array.from({ length: totalPages }, (_, index) => index + 1).map(pageNumber => (
+                    <button 
+                      key={pageNumber}
+                      className={`btn page-btn ${currentPage === pageNumber ? 'active' : ''}`}
+                      onClick={() => setCurrentPage(pageNumber)}
+                    >
+                      {pageNumber}
+                    </button>
+                  ))}
+                  
+                  {currentPage < totalPages && (
+                    <button 
+                      className="btn page-btn"
+                      onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, totalPages))}
+                    >
+                      Next →
+                    </button>
+                  )}
+                </>
+              ) : null}
             </div>
           </div>
         </div>
