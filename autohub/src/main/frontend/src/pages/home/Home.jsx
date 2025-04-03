@@ -32,7 +32,7 @@ const Home = () => {
       setCurrentUser(null);
       window.location.href = '/';
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error('Logout failed:', error);
     }
   };
   
@@ -45,19 +45,17 @@ const Home = () => {
         </div>
         <div className="auth-buttons">
           {loading ? (
-            <span>Loading...</span>
+            <div>Loading...</div>
           ) : currentUser ? (
             <>
-              <span className="welcome-message">Welcome, {currentUser.firstName}!</span>
-              <Link to="/profile" className="btn profile-btn">Profile</Link>
-              <Link to="/favorites" className="btn favorites-btn">My Favorites</Link>
-              <button onClick={handleLogout} className="btn logout-btn">Logout</button>
+              <Link to="/profile" className="btn login-btn">Profile</Link>
+              <button onClick={handleLogout} className="btn register-btn">Logout</button>
             </>
           ) : (
-            <>
+            <div className="auth-buttons">
               <Link to="/login" className="btn login-btn">Login</Link>
               <Link to="/register" className="btn register-btn">Register</Link>
-            </>
+            </div>
           )}
         </div>
       </header>
@@ -66,14 +64,13 @@ const Home = () => {
       <main className="home-main">
         <div className="hero">
           <h2 className="hero-title">Welcome to AutoHub</h2>
-          <p className="hero-subtitle">Buy, Sell, and Rent Classic and Modern Vehicles</p>
+          <p className="hero-subtitle">Buy and Sell Classic and Modern Vehicles</p>
           {/* Action buttons for main user functions */}
           <div className="hero-buttons">
             <Link to="/browse" className="btn btn-primary">Browse Vehicles</Link>
             <Link to="/create-ad" className="btn primary-btn sell-btn">
               Sell Your Vehicle
             </Link>
-            <button className="btn btn-secondary">Rent a Car</button>
           </div>
         </div>
       </main>
