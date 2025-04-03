@@ -62,4 +62,14 @@ public class VehicleAd {
 
     @Column(name = "view_count", nullable = false)
     private Integer viewCount = 0;
+
+    @Column(name = "last_updated")
+    private LocalDateTime lastUpdated;
+
+
+    @PrePersist
+    @PreUpdate
+    public void updateLastUpdatedTime() {
+        this.lastUpdated = LocalDateTime.now();
+    }
 }

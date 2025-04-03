@@ -12,6 +12,7 @@ import softuni.autohubbackend.model.vehicleAd.entity.AdStatus;
 import softuni.autohubbackend.model.vehicleAd.entity.VehicleAd;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -52,4 +53,6 @@ public interface VehicleAdRepository extends JpaRepository<VehicleAd, UUID> {
     long countBySeller(@Param("seller") User seller);
 
     Optional<VehicleAd> findByIdAndSeller(UUID id, User seller);
+
+    List<VehicleAd> findByStatusAndLastUpdatedBefore(AdStatus status, LocalDateTime dateTime);
 }
