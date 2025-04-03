@@ -1,0 +1,314 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap');
+@import '../../styles/buttons.scss';
+
+.my-vehicle-ads {
+  font-family: var(--body-font);
+  color: var(--primary-dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f8f9fa;
+  
+  .ads-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--primary-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+    .logo-container {
+      .logo {
+        font-family: var(--heading-font);
+        font-weight: 700;
+        font-size: 2.5rem;
+        color: var(--secondary-color);
+        margin: 0;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: 1rem;
+      
+      .btn {
+        padding: 0.6rem 1.2rem;
+      }
+    }
+  }
+  
+  .ads-main {
+    flex: 1;
+    padding: 2rem;
+    
+    .page-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      
+      h1 {
+        font-family: var(--heading-font);
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-dark);
+      }
+      
+      .create-ad-btn {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        
+        &:hover {
+          background-color: darken(#007bff, 10%);
+        }
+      }
+    }
+    
+    .ads-container {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      
+      .loading-message {
+        text-align: center;
+        padding: 3rem;
+        font-size: 1.2rem;
+        color: #6c757d;
+      }
+      
+      .error-message {
+        text-align: center;
+        padding: 3rem;
+        font-size: 1.2rem;
+        color: #dc3545;
+      }
+      
+      .no-ads-message {
+        text-align: center;
+        padding: 3rem;
+        
+        p {
+          margin-bottom: 1.5rem;
+          font-size: 1.1rem;
+          color: #6c757d;
+        }
+        
+        .create-ad-btn {
+          background-color: var(--primary-color);
+          color: white;
+          padding: 0.75rem 1.5rem;
+          font-weight: 600;
+          
+          &:hover {
+            background-color: darken(#007bff, 10%);
+          }
+        }
+      }
+      
+      .ads-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        
+        .ad-card {
+          display: flex;
+          border: 1px solid #e9ecef;
+          border-radius: 8px;
+          overflow: hidden;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          
+          &:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+          }
+          
+          @media (max-width: 768px) {
+            flex-direction: column;
+          }
+          
+          .ad-image {
+            flex: 0 0 280px;
+            height: 210px;
+            background-color: #e9ecef;
+            position: relative;
+            
+            @media (max-width: 768px) {
+              flex: 0 0 auto;
+              height: 200px;
+            }
+            
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+            
+            .no-image {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 100%;
+              color: #6c757d;
+              font-style: italic;
+            }
+          }
+          
+          .ad-details {
+            flex: 1;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            
+            .ad-title {
+              font-size: 1.3rem;
+              font-weight: 600;
+              margin-bottom: 0.5rem;
+              color: var(--primary-dark);
+            }
+            
+            .ad-meta {
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 0.75rem;
+              
+              .vehicle-info {
+                font-weight: 600;
+                color: var(--primary-color);
+              }
+              
+              .price {
+                font-weight: 700;
+                font-size: 1.25rem;
+                color: var(--secondary-color);
+              }
+            }
+            
+            .ad-stats {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 1rem;
+              margin-bottom: 0.75rem;
+              
+              .status-badge {
+                padding: 0.25rem 0.75rem;
+                border-radius: 50px;
+                font-size: 0.8rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                
+                &.active {
+                  background-color: #28a745;
+                  color: white;
+                }
+                
+                &.inactive, &.draft {
+                  background-color: #6c757d;
+                  color: white;
+                }
+              }
+              
+              .views, .date {
+                display: flex;
+                align-items: center;
+                gap: 0.35rem;
+                font-size: 0.9rem;
+                color: #6c757d;
+              }
+            }
+            
+            .ad-location {
+              font-size: 0.9rem;
+              color: #6c757d;
+              margin-top: auto;
+              display: flex;
+              align-items: center;
+              gap: 0.35rem;
+            }
+          }
+          
+          .ad-actions {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            background-color: #f8f9fa;
+            min-width: 140px;
+            
+            @media (max-width: 768px) {
+              flex-direction: row;
+              flex-wrap: wrap;
+            }
+            
+            .btn {
+              width: 100%;
+              text-align: center;
+              
+              &.view-btn {
+                background-color: var(--primary-color);
+                color: white;
+                
+                &:hover {
+                  background-color: darken(#007bff, 10%);
+                }
+              }
+              
+              &.edit-btn {
+                background-color: #6c757d;
+                color: white;
+                
+                &:hover {
+                  background-color: darken(#6c757d, 10%);
+                }
+              }
+              
+              &.status-toggle-btn {
+                &.active {
+                  background-color: #dc3545;
+                  color: white;
+                  
+                  &:hover {
+                    background-color: darken(#dc3545, 10%);
+                  }
+                }
+                
+                &.inactive {
+                  background-color: #28a745;
+                  color: white;
+                  
+                  &:hover {
+                    background-color: darken(#28a745, 10%);
+                  }
+                }
+              }
+              
+              &.delete-btn {
+                background-color: transparent;
+                color: #dc3545;
+                border: 1px solid #dc3545;
+                
+                &:hover {
+                  background-color: #dc3545;
+                  color: white;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .ads-footer {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--primary-color);
+    color: var(--secondary-light);
+    font-size: 0.9rem;
+    font-family: var(--body-font);
+    letter-spacing: 0.5px;
+  }
+}

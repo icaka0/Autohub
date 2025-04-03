@@ -1,0 +1,1137 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap');
+@import '../../styles/buttons.scss';
+
+.vehicle-ad-page {
+  font-family: var(--body-font);
+  color: var(--primary-dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: #f8f9fa;
+  
+  .ad-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 2rem;
+    background-color: var(--primary-color, #1e3a8a);
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+    
+    .logo-container {
+      display: block;
+      
+      .logo {
+        font-family: var(--heading-font, 'Montserrat', sans-serif);
+        font-weight: 700;
+        font-size: 2rem;
+        color: var(--secondary-color, white);
+        margin: 0;
+        text-decoration: none;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+    }
+    
+    .nav-buttons {
+      display: flex;
+      gap: 0.5rem;
+      
+      .btn {
+        padding: 0.5rem 1.2rem;
+        border-radius: 4px;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        cursor: pointer;
+        background-color: rgba(255, 255, 255, 0.15);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.25);
+        }
+        
+        &.browse-btn {
+          background-color: transparent;
+        }
+        
+        &.my-ads-btn {
+          background-color: white;
+          color: #1e3a8a;
+          
+          &:hover {
+            background-color: #f0f0f0;
+          }
+        }
+        
+        &.logout-btn {
+          background-color: transparent;
+        }
+        
+        &.login-btn {
+          background-color: transparent;
+        }
+        
+        &.register-btn {
+          background-color: white;
+          color: #1e3a8a;
+          
+          &:hover {
+            background-color: #f0f0f0;
+          }
+        }
+      }
+    }
+  }
+  
+  .ad-main {
+    flex: 1;
+    padding: 2rem;
+    
+    .ad-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      
+      .ad-breadcrumbs {
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        color: #6c757d;
+        
+        a {
+          color: #6c757d;
+          text-decoration: none;
+          
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+        
+        span {
+          font-weight: 600;
+        }
+      }
+      
+      .ad-title {
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid #e9ecef;
+        
+        h2 {
+          font-size: 1.8rem;
+          margin: 0;
+          color: #1e3a8a;
+          font-weight: 700;
+        }
+        
+        .ad-subtitle {
+          margin-top: 0.5rem;
+          font-size: 1.1rem;
+          color: #6c757d;
+        }
+      }
+      
+      .ad-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #e9ecef;
+        
+        .meta-item {
+          .label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-right: 0.5rem;
+          }
+          
+          .value {
+            font-weight: 600;
+            color: #343a40;
+          }
+        }
+      }
+      
+      .ad-content {
+        padding: 2rem;
+        
+        .vehicle-images {
+          margin-bottom: 2rem;
+          border: 1px solid #e0e0e0;
+          border-radius: 8px;
+          overflow: hidden;
+          background: white;
+          
+          .main-image-container {
+            position: relative;
+            height: 500px; /* Fixed height as requested */
+            overflow: hidden;
+            background: #f8f8f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            .carousel-image {
+              width: 100%;
+              height: 100%;
+              object-fit: contain;
+              transition: opacity 0.3s ease;
+              background-color: #f8f8f8;
+              display: block;
+            }
+            
+            .image-nav {
+              position: absolute;
+              top: 50%;
+              transform: translateY(-50%);
+              background: rgba(0, 0, 0, 0.6);
+              color: white;
+              border: none;
+              border-radius: 50%;
+              width: 50px;
+              height: 50px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+              font-size: 30px;
+              opacity: 0.8;
+              transition: opacity 0.2s, background-color 0.2s;
+              z-index: 10;
+              
+              &:hover {
+                opacity: 1;
+                background: rgba(0, 0, 0, 0.8);
+              }
+              
+              &:focus {
+                outline: 2px solid #3498db;
+                opacity: 1;
+              }
+              
+              &.prev {
+                left: 15px;
+              }
+              
+              &.next {
+                right: 15px;
+              }
+              
+              .arrow {
+                line-height: 0.8;
+                font-weight: bold;
+              }
+            }
+            
+            .image-counter {
+              position: absolute;
+              bottom: 15px;
+              right: 15px;
+              background: rgba(0, 0, 0, 0.6);
+              color: white;
+              padding: 6px 12px;
+              border-radius: 4px;
+              font-size: 14px;
+              font-weight: 500;
+            }
+          }
+          
+          .thumbnail-strip {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px;
+            gap: 10px;
+            background-color: #f5f5f5;
+            
+            .thumbnail {
+              flex: 0 0 auto;
+              width: 100px;
+              height: 75px;
+              border-radius: 4px;
+              overflow: hidden;
+              cursor: pointer;
+              box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+              border: 2px solid transparent;
+              transition: border-color 0.2s;
+              
+              &.active {
+                border-color: #1e3a8a;
+              }
+              
+              &:hover:not(.active) {
+                border-color: rgba(30, 58, 138, 0.5);
+              }
+              
+              img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+              }
+            }
+          }
+        }
+        
+        .ad-details {
+          display: grid;
+          grid-template-columns: 2fr 1fr;
+          gap: 2rem;
+          
+          @media (max-width: 992px) {
+            grid-template-columns: 1fr;
+          }
+          
+          .vehicle-info-main {
+            .price-section {
+              margin-bottom: 1.5rem;
+              
+              .price-label {
+                font-size: 1rem;
+                color: #6c757d;
+                margin-bottom: 0.5rem;
+              }
+              
+              .price-value {
+                font-size: 2rem;
+                font-weight: 700;
+                color: #1e3a8a;
+              }
+            }
+            
+            .specs-table {
+              margin-bottom: 2rem;
+              
+              h3 {
+                font-size: 1.5rem;
+                color: #333;
+                margin-bottom: 1rem;
+                font-weight: 600;
+                border-bottom: 2px solid #e0e0e0;
+                padding-bottom: 0.5rem;
+              }
+              
+              .table-container {
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                
+                table {
+                  width: 100%;
+                  border-collapse: collapse;
+                  
+                  th, td {
+                    padding: 12px 15px;
+                    text-align: left;
+                    border: 1px solid #e0e0e0;
+                  }
+                  
+                  th {
+                    background-color: #f2f4f8;
+                    font-weight: 700;
+                    color: #333;
+                    width: 25%;
+                  }
+                  
+                  td {
+                    font-weight: 600;
+                    color: #505050;
+                  }
+                  
+                  tr:nth-child(even) {
+                    background-color: #f9f9f9;
+                  }
+                  
+                  tr:hover {
+                    background-color: #f2f2f2;
+                  }
+                }
+              }
+            }
+            
+            .description-section {
+              h3 {
+                font-size: 1.5rem;
+                color: #333;
+                margin-bottom: 1rem;
+                font-weight: 600;
+                border-bottom: 2px solid #e0e0e0;
+                padding-bottom: 0.5rem;
+              }
+              
+              .description-content {
+                padding: 1.5rem;
+                background-color: #f8f9fa;
+                border-radius: 8px;
+                line-height: 1.6;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+              }
+            }
+          }
+          
+          .seller-section {
+            .contact-box {
+              background-color: #f8f9fa;
+              border-radius: 8px;
+              padding: 1.5rem;
+              box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+              
+              h3 {
+                font-size: 1.3rem;
+                color: #1e3a8a;
+                margin-top: 0;
+                margin-bottom: 1rem;
+                font-weight: 600;
+                border-bottom: 2px solid #e0e0e0;
+                padding-bottom: 0.5rem;
+              }
+              
+              .seller-name {
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin-bottom: 1rem;
+              }
+              
+              .contact-phone, 
+              .location {
+                margin-bottom: 0.8rem;
+                
+                .label {
+                  font-weight: 600;
+                  color: #666;
+                  margin-right: 0.5rem;
+                }
+                
+                .value {
+                  font-weight: 500;
+                }
+              }
+              
+              .contact-button {
+                width: 100%;
+                padding: 0.8rem;
+                background-color: #28a745;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                font-weight: 600;
+                margin-top: 1rem;
+                cursor: pointer;
+                transition: background-color 0.2s;
+                
+                &:hover {
+                  background-color: #218838;
+                }
+              }
+              
+              .login-to-contact {
+                margin-top: 1rem;
+                padding: 1rem;
+                background-color: #f0f0f0;
+                border-radius: 4px;
+                border-left: 4px solid #1e3a8a;
+                
+                p {
+                  margin-top: 0;
+                  margin-bottom: 0.8rem;
+                  font-weight: 500;
+                }
+                
+                .auth-buttons {
+                  display: flex;
+                  gap: 0.5rem;
+                  
+                  .login-button,
+                  .register-button {
+                    padding: 0.5rem 1rem;
+                    border-radius: 4px;
+                    text-decoration: none;
+                    font-weight: 600;
+                    flex: 1;
+                    text-align: center;
+                  }
+                  
+                  .login-button {
+                    background-color: #1e3a8a;
+                    color: white;
+                  }
+                  
+                  .register-button {
+                    background-color: #f0f0f0;
+                    color: #333;
+                    border: 1px solid #ccc;
+                  }
+                }
+              }
+              
+              .owner-actions {
+                margin-top: 1.5rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.8rem;
+                
+                .edit-button,
+                .delete-button {
+                  padding: 0.8rem;
+                  border-radius: 4px;
+                  font-weight: 600;
+                  text-align: center;
+                  transition: background-color 0.2s;
+                }
+                
+                .edit-button {
+                  background-color: #007bff;
+                  color: white;
+                  text-decoration: none;
+                  
+                  &:hover {
+                    background-color: #0069d9;
+                  }
+                }
+                
+                .delete-button {
+                  background-color: #dc3545;
+                  color: white;
+                  border: none;
+                  cursor: pointer;
+                  
+                  &:hover {
+                    background-color: #c82333;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      
+      .similar-vehicles {
+        margin-top: 3rem;
+        
+        .coming-soon {
+          color: #6c757d;
+          font-style: italic;
+        }
+      }
+    }
+  }
+  
+  .ad-footer {
+    background-color: #1e3a8a;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 2rem;
+  }
+  
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    font-size: 1.2rem;
+    color: #6c757d;
+  }
+  
+  .error-container {
+    text-align: center;
+    padding: 2rem;
+    
+    .error-message {
+      color: #dc3545;
+      margin-bottom: 1rem;
+    }
+    
+    .btn {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      background-color: #007bff;
+      color: white;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+      
+      &:hover {
+        background-color: #0069d9;
+      }
+    }
+  }
+}
+
+.ad-price {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin: 1.5rem 0;
+  
+  span {
+    display: inline-block;
+  }
+}
+
+.info-item {
+  margin-bottom: 0.8rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid #f0f0f0;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  .label {
+    color: #6c757d;
+    margin-right: 0.5rem;
+    font-weight: 600;
+    min-width: 120px;
+    display: inline-block;
+  }
+  
+  .value {
+    color: #343a40;
+    font-weight: 500;
+  }
+}
+
+.info-group {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.vehicle-ad-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  
+  .ad-navigation {
+    display: flex;
+    margin-bottom: 20px;
+    gap: 15px;
+    
+    .nav-button {
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 15px;
+      
+      &.back-button {
+        background-color: #f0f0f0;
+        color: #333;
+        
+        &:hover {
+          background-color: #e0e0e0;
+        }
+      }
+      
+      &.contact-button {
+        background-color: #2a52be;
+        color: white;
+        
+        &:hover {
+          background-color: #1a42ae;
+        }
+      }
+    }
+  }
+  
+  .vehicle-ad-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 20px;
+    
+    .title-container {
+      h1 {
+        margin: 0 0 5px 0;
+        font-size: 32px;
+        font-weight: 700;
+        color: #333;
+      }
+      
+      .year-model {
+        color: #666;
+        font-size: 18px;
+      }
+    }
+    
+    .price {
+      font-size: 36px;
+      font-weight: bold;
+      color: #2a52be;
+      background: #f5f8ff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  .vehicle-images {
+    margin-bottom: 30px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background: #fff;
+    
+    .main-image-container {
+      position: relative;
+      height: 500px;
+      overflow: hidden;
+      border-bottom: 1px solid #e0e0e0;
+      
+      .carousel-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: opacity 0.3s ease;
+        background-color: #f8f8f8;
+        display: block;
+      }
+      
+      .image-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 30px;
+        opacity: 0.8;
+        transition: opacity 0.2s, background-color 0.2s;
+        z-index: 10;
+        
+        &:hover {
+          opacity: 1;
+          background: rgba(0, 0, 0, 0.8);
+        }
+        
+        &:focus {
+          outline: 2px solid #3498db;
+          opacity: 1;
+        }
+        
+        &.prev {
+          left: 15px;
+        }
+        
+        &.next {
+          right: 15px;
+        }
+        
+        .arrow {
+          line-height: 0.8;
+          font-weight: bold;
+        }
+      }
+      
+      .image-counter {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+    
+    .thumbnail-strip {
+      display: flex;
+      overflow-x: auto;
+      padding: 10px;
+      gap: 5px;
+      background-color: #f5f5f5;
+      
+      .thumbnail {
+        flex: 0 0 auto;
+        width: 90px;
+        height: 68px;
+        border-radius: 3px;
+        overflow: hidden;
+        cursor: pointer;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        border: 2px solid transparent;
+        transition: border-color 0.2s;
+        
+        &.active {
+          border-color: #2a52be;
+        }
+        
+        &:hover:not(.active) {
+          border-color: rgba(42, 82, 190, 0.5);
+        }
+        
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+      }
+    }
+  }
+  
+  .vehicle-details {
+    margin-bottom: 40px;
+    
+    h2 {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 20px;
+      font-weight: 600;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 10px;
+    }
+    
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      
+      .spec-item {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        
+        .label {
+          color: #666;
+          font-size: 14px;
+          margin-bottom: 5px;
+          font-weight: 500;
+        }
+        
+        .value {
+          color: #333;
+          font-size: 18px;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+  
+  .ad-description {
+    margin-bottom: 30px;
+    
+    h3 {
+      font-size: 22px;
+      color: #333;
+      margin-bottom: 15px;
+      font-weight: 600;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 10px;
+    }
+    
+    .description-content {
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+  }
+  
+  .seller-info {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    
+    h3 {
+      font-size: 22px;
+      color: #333;
+      margin-bottom: 15px;
+      font-weight: 600;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 10px;
+    }
+    
+    .contact-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      
+      .contact-item {
+        display: flex;
+        flex-direction: column;
+        
+        .label {
+          color: #666;
+          font-size: 14px;
+          margin-bottom: 5px;
+          font-weight: 500;
+        }
+        
+        .value {
+          color: #333;
+          font-size: 16px;
+          font-weight: 700;
+        }
+      }
+    }
+    
+    .location-info {
+      margin-top: 15px;
+      
+      .location-label {
+        font-weight: 500;
+        color: #666;
+        margin-bottom: 5px;
+      }
+      
+      .location-value {
+        font-weight: 700;
+        font-size: 16px;
+        color: #333;
+      }
+    }
+    
+    .contact-button {
+      margin-top: 20px;
+      display: inline-block;
+      background-color: #2a52be;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      
+      &:hover {
+        background-color: #1a42ae;
+      }
+      
+      &.disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+        
+        &:hover {
+          background-color: #ccc;
+        }
+      }
+    }
+  }
+  
+  .login-prompt {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #2a52be;
+    
+    p {
+      margin: 0 0 10px 0;
+      font-weight: 500;
+    }
+    
+    .login-button {
+      display: inline-block;
+      background-color: #2a52be;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-right: 10px;
+    }
+    
+    .register-button {
+      display: inline-block;
+      background-color: #f0f0f0;
+      color: #333;
+      padding: 8px 16px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  }
+}
+
+.duplicate-title {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .vehicle-ad-container {
+    .vehicle-ad-header {
+      flex-direction: column;
+      
+      .price {
+        margin-top: 15px;
+        align-self: flex-start;
+      }
+    }
+    
+    .specs-grid {
+      grid-template-columns: 1fr !important;
+    }
+    
+    .ad-navigation {
+      flex-direction: column;
+    }
+    
+    .main-image-container {
+      .image-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+      }
+    }
+  }
+}
+
+.lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 30px;
+  
+  .lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    
+    .lightbox-image {
+      max-width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+      border-radius: 4px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    }
+    
+    .lightbox-close {
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 40px;
+      height: 40px;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 1010;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+    }
+    
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 36px;
+      opacity: 0.8;
+      transition: opacity 0.2s, background-color 0.2s;
+      z-index: 1010;
+      
+      &:hover {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.8);
+      }
+      
+      &.prev {
+        left: -80px;
+      }
+      
+      &.next {
+        right: -80px;
+      }
+      
+      .arrow {
+        line-height: 0.8;
+        font-weight: bold;
+      }
+    }
+    
+    .lightbox-counter {
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .lightbox-overlay {
+    padding: 15px;
+    
+    .lightbox-content {
+      .lightbox-close {
+        top: 10px;
+        right: 10px;
+      }
+      
+      .lightbox-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+        
+        &.prev {
+          left: 10px;
+        }
+        
+        &.next {
+          right: 10px;
+        }
+      }
+    }
+  }
+}

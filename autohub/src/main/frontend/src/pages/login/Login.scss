@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap');
+
+.login {
+  font-family: var(--body-font);
+  color: var(--primary-dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: url('/images/cars-background.jpg') no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+  
+  // Header styles
+  &-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--primary-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+    
+    .logo-container {
+      .logo {
+        font-family: var(--heading-font);
+        font-weight: 700;
+        font-size: 2.5rem;
+        color: var(--secondary-color);
+        margin: 0;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        letter-spacing: 1px;
+      }
+    }
+  }
+
+  // Main content
+  &-main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+    
+    .login-form-container {
+      width: 100%;
+      max-width: 450px;
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 2.5rem;
+      border-radius: 8px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--secondary-color);
+      
+      .form-title {
+        font-family: var(--heading-font);
+        font-weight: 600;
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        color: var(--primary-dark);
+        text-align: center;
+        letter-spacing: -0.5px;
+      }
+      
+      .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        
+        .form-group {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          
+          label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+          }
+          
+          input {
+            font-family: var(--body-font);
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--primary-light);
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            
+            &:focus {
+              outline: none;
+              border-color: var(--secondary-color);
+              box-shadow: 0 0 0 2px rgba(var(--secondary-color-rgb), 0.2);
+            }
+            
+            &::placeholder {
+              color: #aaa;
+            }
+          }
+        }
+        
+        .btn {
+          font-family: var(--body-font);
+          font-weight: 600;
+          padding: 0.9rem;
+          margin-top: 0.5rem;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 1rem;
+          transition: all 0.3s ease;
+          letter-spacing: 0.5px;
+          
+          &-primary {
+            background-color: var(--primary-color);
+            color: var(--secondary-light);
+            
+            &:hover {
+              background-color: var(--primary-dark);
+              transform: translateY(-2px);
+            }
+          }
+        }
+      }
+      
+      .form-footer {
+        margin-top: 1.5rem;
+        text-align: center;
+        font-size: 0.9rem;
+        
+        p {
+          margin: 0.5rem 0;
+        }
+        
+        a {
+          color: var(--primary-color);
+          text-decoration: none;
+          font-weight: 600;
+          
+          &:hover {
+            text-decoration: underline;
+            color: var(--primary-dark);
+          }
+        }
+      }
+    }
+  }
+  
+  // Footer styles
+  &-footer {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--primary-color);
+    color: var(--secondary-light);
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 1;
+    font-family: var(--body-font);
+    letter-spacing: 0.5px;
+  }
+}
+
+.error-message {
+  color: #d32f2f;
+  background-color: #ffebee;
+  padding: 0.8rem;
+  border-radius: 4px;
+  margin-bottom: 1.2rem;
+  font-size: 0.9rem;
+  border-left: 4px solid #d32f2f;
+}
+
+.field-error {
+  color: #d32f2f;
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  display: block;
+}

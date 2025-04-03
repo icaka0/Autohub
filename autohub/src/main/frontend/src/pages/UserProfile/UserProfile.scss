@@ -1,0 +1,462 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap');
+@import '../../styles/buttons.scss';
+
+.user-profile {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--body-font);
+  color: var(--primary-dark);
+  background: url('/images/cars-background.jpg') no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+  
+  .profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--primary-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+    .logo-container {
+      .logo {
+        font-family: var(--heading-font);
+        font-weight: 700;
+        font-size: 2.5rem;
+        color: var(--secondary-color);
+        text-decoration: none;
+        margin: 0;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        letter-spacing: 1px;
+      }
+    }
+  }
+  
+  .profile-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    
+    .profile-card {
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 8px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      padding: 2rem;
+      width: 100%;
+      max-width: 800px;
+      
+      h1 {
+        font-family: var(--heading-font);
+        color: var(--primary-dark);
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--secondary-color);
+      }
+      
+      .profile-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+        
+        .info-group {
+          h3 {
+            font-family: var(--heading-font);
+            color: var(--secondary-dark);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+          }
+          
+          .info-item {
+            display: flex;
+            margin-bottom: 0.8rem;
+            
+            .label {
+              font-weight: 600;
+              width: 100px;
+              color: var(--primary-dark);
+            }
+            
+            .value {
+              flex: 1;
+              color: var(--secondary-dark);
+            }
+          }
+        }
+      }
+      
+      .profile-actions {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        
+        .btn {
+          padding: 0.8rem 1.5rem;
+          border: none;
+          border-radius: 4px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          
+          &.edit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            
+            &:hover {
+              background-color: var(--primary-dark);
+              transform: translateY(-2px);
+            }
+          }
+          
+          &.change-password-btn {
+            background-color: var(--secondary-color);
+            color: var(--primary-dark);
+            
+            &:hover {
+              background-color: var(--secondary-dark);
+              transform: translateY(-2px);
+            }
+          }
+        }
+      }
+      
+      .vehicle-listings {
+        margin-top: 2rem;
+        border-top: 1px solid #e9ecef;
+        padding-top: 2rem;
+        
+        h3 {
+          margin-bottom: 1.25rem;
+          font-family: var(--heading-font);
+          font-weight: 600;
+          color: var(--primary-dark);
+        }
+        
+        .listings-placeholder {
+          padding: 2rem;
+          text-align: center;
+          background-color: #f8f9fa;
+          border-radius: 8px;
+          
+          p {
+            margin-bottom: 1.25rem;
+            color: #6c757d;
+          }
+          
+          .create-listing-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            font-weight: 600;
+            
+            &:hover {
+              background-color: darken(#007bff, 10%);
+            }
+          }
+        }
+        
+        .listings-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          gap: 1.5rem;
+          
+          .listing-card {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            
+            &:hover {
+              transform: translateY(-4px);
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+            
+            .listing-image {
+              height: 160px;
+              overflow: hidden;
+              
+              img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+              }
+            }
+            
+            .listing-details {
+              padding: 1rem;
+              
+              h4 {
+                margin: 0 0 0.5rem;
+                font-weight: 600;
+                font-size: 1rem;
+                color: var(--primary-dark);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+              
+              .listing-vehicle {
+                font-size: 0.9rem;
+                color: #495057;
+                margin-bottom: 0.5rem;
+              }
+              
+              .listing-price {
+                font-weight: 700;
+                font-size: 1.1rem;
+                color: var(--primary-color);
+                margin-bottom: 0.5rem;
+              }
+              
+              .listing-status {
+                font-size: 0.8rem;
+                margin: 0;
+                
+                span {
+                  padding: 0.2rem 0.5rem;
+                  border-radius: 4px;
+                  font-weight: 600;
+                  
+                  &.active {
+                    background-color: rgba(40, 167, 69, 0.1);
+                    color: #28a745;
+                  }
+                  
+                  &.inactive {
+                    background-color: rgba(108, 117, 125, 0.1);
+                    color: #6c757d;
+                  }
+                }
+              }
+            }
+            
+            .listing-actions {
+              display: flex;
+              padding: 0.75rem;
+              background-color: #f8f9fa;
+              border-top: 1px solid #e9ecef;
+              
+              .btn {
+                flex: 1;
+                text-align: center;
+                font-size: 0.85rem;
+                padding: 0.4rem 0;
+                
+                &:not(:last-child) {
+                  margin-right: 0.5rem;
+                }
+                
+                &.view-btn {
+                  background-color: var(--primary-color);
+                  color: white;
+                  
+                  &:hover {
+                    background-color: darken(#007bff, 10%);
+                  }
+                }
+                
+                &.edit-btn {
+                  background-color: #6c757d;
+                  color: white;
+                  
+                  &:hover {
+                    background-color: darken(#6c757d, 10%);
+                  }
+                }
+              }
+            }
+          }
+          
+          .more-listings {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e9ecef;
+            
+            .btn {
+              padding: 0.6rem 1.2rem;
+              font-weight: 600;
+              
+              &.view-all-btn {
+                background-color: transparent;
+                color: var(--primary-color);
+                border: 1px solid var(--primary-color);
+                
+                &:hover {
+                  background-color: rgba(0, 123, 255, 0.1);
+                }
+              }
+              
+              &.create-btn {
+                background-color: var(--primary-color);
+                color: white;
+                
+                &:hover {
+                  background-color: darken(#007bff, 10%);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .profile-footer {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--primary-color);
+    color: var(--secondary-light);
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+  }
+  
+  .profile-loading,
+  .profile-error,
+  .profile-not-authenticated {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--secondary-light);
+    
+    p {
+      margin-bottom: 1.5rem;
+      font-size: 1.2rem;
+    }
+    
+    .btn {
+      padding: 0.8rem 1.5rem;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      
+      &:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+      }
+    }
+  }
+  
+  .nav-buttons {
+    .my-ads-btn {
+      background-color: transparent;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: white;
+      }
+    }
+  }
+}
+
+.profile-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-header {
+  background-color: #1e293b;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  
+  .logo-container {
+    .logo {
+      font-size: 1.8rem;
+      color: white;
+      text-decoration: none;
+      margin: 0;
+    }
+  }
+}
+
+.profile-content {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+  
+  h1 {
+    margin-bottom: 2rem;
+    color: #1e293b;
+  }
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  
+  .profile-section {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    
+    h2 {
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1.25rem;
+      color: #334155;
+    }
+    
+    .info-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      
+      @media (max-width: 640px) {
+        grid-template-columns: 1fr;
+      }
+      
+      p {
+        margin: 0.5rem 0;
+        color: #475569;
+        
+        strong {
+          color: #334155;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+  
+  .profile-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    
+    @media (max-width: 480px) {
+      flex-direction: column;
+    }
+  }
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.2rem;
+  color: #64748b;
+}

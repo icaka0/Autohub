@@ -1,0 +1,46 @@
+:root {
+  --primary-color: #1a3a6c;      /* Dark blue */
+  --primary-dark: #0a1a33;       /* Darker blue */
+  --primary-light: #3a5a9c;      /* Lighter blue */
+  --secondary-color: #C0C0C0;    /* Silver */
+  --secondary-light: #E8E8E8;    /* Light silver */
+  --secondary-dark: #707070;     /* Dark silver */
+  --background-color: #E8E8E8;   /* Light silver background */
+  
+  /* Font variables */
+  --heading-font: 'Montserrat', sans-serif;
+  --body-font: 'Open Sans', sans-serif;
+}
+
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--body-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-color);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.home-header {
+  background-color: var(--primary-color);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--secondary-light);
+}
