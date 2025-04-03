@@ -55,6 +55,21 @@ const UserProfile = () => {
     }).format(price);
   };
   
+  const getExpirationInfo = (ad) => {
+    if (ad.status !== 'ACTIVE') {
+      return null;
+    }
+
+    // Calculate when the ad will expire - 2 minutes after last update
+    const lastUpdated = new Date(ad.updatedAt || ad.createdAt);
+    const expirationTime = new Date(lastUpdated.getTime() + (2 * 60 * 1000)); // 2 minutes in milliseconds
+    
+    return { 
+      time: expirationTime,
+      formattedTime: expirationTime.toLocaleString()
+    };
+  };
+  
   if (loading) {
     return <div className="profile-loading">Loading profile...</div>;
   }
@@ -159,6 +174,19 @@ const UserProfile = () => {
                       <p className="listing-vehicle">{ad.vehicle.year} {ad.vehicle.brand} {ad.vehicle.model}</p>
                       <p className="listing-price">{formatPrice(ad.price)}</p>
                       <p className="listing-status">Status: <span className={ad.status.toLowerCase()}>{ad.status}</span></p>
+                      {ad.status === 'ACTIVE' && getExpirationInfo(ad) && (
+                        <p className="listing-expiration">
+                          Expires: {getExpirationInfo(ad).formattedTime}
+                        </p>
+                      )}
+                      {ad.status === 'EXPIRED' && (
+                        <button 
+                          className="btn renew-btn"
+                          onClick={() => handleRenewAd(ad.id)}
+                        >
+                          Renew Ad
+                        </button>
+                      )}
                     </div>
                     <div className="listing-actions">
                       <Link to={`/vehicle/${ad.id}`} className="btn view-btn">View</Link>

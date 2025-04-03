@@ -312,3 +312,26 @@
     letter-spacing: 0.5px;
   }
 }
+
+.ad-status {
+  &.expired {
+    color: #e53935;
+    font-weight: bold;
+  }
+  
+  .expiration-countdown {
+    margin-left: 8px;
+    font-size: 0.85rem;
+    color: #f44336;
+    font-style: italic;
+  }
+}
+
+.renew-btn {
+  background-color: #4caf50;
+  color: white;
+  
+  &:hover {
+    background-color: #388e3c;
+  }
+}
