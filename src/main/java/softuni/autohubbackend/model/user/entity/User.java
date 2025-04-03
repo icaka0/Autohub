@@ -52,4 +52,8 @@ public class User {
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default // This ensures the List is initialized properly when using the Builder pattern
     private List<VehicleAd> vehicleAds = new ArrayList<>();
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }
