@@ -1,7 +1,6 @@
 package softuni.autohubbackend.web.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import softuni.autohubbackend.model.user.entity.Role;
@@ -9,7 +8,6 @@ import softuni.autohubbackend.model.user.entity.Role;
 import java.util.UUID;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserManagementDTO {

@@ -27,15 +27,17 @@ public class AdminUserController {
         List<User> users = userRepository.findAll();
 
         List<UserManagementDTO> userDTOs = users.stream()
-                .map(user -> UserManagementDTO.builder()
-                        .id(user.getId())
-                        .username(user.getUsername())
-                        .firstName(user.getFirstName())
-                        .lastName(user.getLastName())
-                        .email(user.getEmail())
-                        .phoneNumber(user.getPhoneNumber())
-                        .role(user.getRole())
-                        .build())
+                .map(user -> {
+                    UserManagementDTO dto = new UserManagementDTO();
+                    dto.setId(user.getId());
+                    dto.setUsername(user.getUsername());
+                    dto.setFirstName(user.getFirstName());
+                    dto.setLastName(user.getLastName());
+                    dto.setEmail(user.getEmail());
+                    dto.setPhoneNumber(user.getPhoneNumber());
+                    dto.setRole(user.getRole());
+                    return dto;
+                })
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(userDTOs);
@@ -68,15 +70,14 @@ public class AdminUserController {
         userRepository.save(user);
 
         // Map to DTO and return
-        UserManagementDTO userDTO = UserManagementDTO.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .email(user.getEmail())
-                .phoneNumber(user.getPhoneNumber())
-                .role(user.getRole())
-                .build();
+        UserManagementDTO userDTO = new UserManagementDTO();
+        userDTO.setId(user.getId());
+        userDTO.setUsername(user.getUsername());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setPhoneNumber(user.getPhoneNumber());
+        userDTO.setRole(user.getRole());
 
         return ResponseEntity.ok(userDTO);
     }
