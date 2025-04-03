@@ -460,3 +460,13 @@
   font-size: 1.2rem;
   color: #64748b;
 }
+
+.admin-btn {
+  background-color: #7b1fa2; /* Purple to distinguish admin button */
+  color: white;
+  
+  &:hover {
+    background-color: #6a1b9a;
+    transform: translateY(-2px);
+  }
+}

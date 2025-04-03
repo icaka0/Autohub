@@ -9,10 +9,11 @@ import VehicleAd from './pages/vehicleAd/VehicleAd';
 import MyVehicleAds from './pages/myVehicleAds/MyVehicleAds';
 import CreateVehicleAd from './pages/createVehicleAd/CreateVehicleAd';
 import EditVehicleAd from './pages/editVehicleAd/EditVehicleAd';
+import AdminPanel from './pages/admin/AdminPanel';
 import './App.css';
 import './pages/login/login.scss';
 import './pages/register/register.scss';
-import { AuthProtectedRoute, OwnerProtectedRoute } from './components/ProtectedRoute';
+import { AuthProtectedRoute, OwnerProtectedRoute, AdminProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
 
@@ -53,7 +54,14 @@ function App() {
             } 
           />
           <Route path="/vehicle/:id" element={<VehicleAd />} />
-  
+          <Route 
+            path="/admin" 
+            element={
+              <AdminProtectedRoute>
+                <AdminPanel />
+              </AdminProtectedRoute>
+            } 
+          />
           <Route path="*" element={<Navigate to="/" replace />} /> 
           {/* redirects the user to the home page if they try to access a page that doesn't exist */}
           {/* replace prop is used to replace the current entry in the history stack instead of adding a new one */}

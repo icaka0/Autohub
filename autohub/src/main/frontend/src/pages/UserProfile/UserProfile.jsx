@@ -83,6 +83,9 @@ const UserProfile = () => {
         <div className="nav-buttons">
           <Link to="/browse" className="btn browse-btn">Browse Vehicles</Link>
           <Link to="/my-ads" className="btn my-ads-btn">My Listings</Link>
+          {user && user.role === 'ADMIN' && (
+            <Link to="/admin" className="btn admin-btn">Admin Panel</Link>
+          )}
           <button onClick={handleLogout} className="btn logout-btn">Logout</button>
         </div>
       </header>

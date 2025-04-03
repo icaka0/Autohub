@@ -1,0 +1,52 @@
+.admin-user-management {
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-dark);
+  }
+  
+  .user-table-container {
+    overflow-x: auto;
+  }
+  
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+    
+    th, td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    
+    th {
+      background-color: #f5f7f9;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+    
+    .role-select {
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: var(--body-font);
+      
+      &:focus {
+        outline: none;
+        border-color: var(--primary-color);
+      }
+    }
+  }
+  
+  .error {
+    color: #e53935;
+    padding: 1rem;
+    background-color: #ffebee;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+}

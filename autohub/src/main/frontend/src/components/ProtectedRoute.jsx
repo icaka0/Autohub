@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useParams, useNavigate } from 'react-router-dom';
 import { checkAuthStatus, getVehicleAdById } from '../services/api';
 
 // Component to protect routes that require authentication
@@ -76,4 +76,37 @@ export const OwnerProtectedRoute = ({ children }) => {
   }
 
   return children;
+};
+
+export const AdminProtectedRoute = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAdminAuth = async () => {
+      try {
+        const userData = await checkAuthStatus();
+        setCurrentUser(userData);
+        
+        if (!userData || userData.role !== 'ADMIN') {
+          navigate('/');
+          return;
+        }
+      } catch (error) {
+        console.error('Error checking auth status:', error);
+        navigate('/');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    checkAdminAuth();
+  }, [navigate]);
+
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  return currentUser && currentUser.role === 'ADMIN' ? children : null;
 }; 
