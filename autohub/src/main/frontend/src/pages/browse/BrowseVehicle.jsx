@@ -316,7 +316,7 @@ const BrowseVehicle = () => {
                         />
                       </div>
                       <div className="vehicle-details">
-                        <h2 className="vehicle-title">{vehicle.title}</h2>
+                        <h2 className="vehicle-title text-truncate">{vehicle.title}</h2>
                         <p className="vehicle-subtitle">
                           {vehicle.vehicle.year} {vehicle.vehicle.brand} {vehicle.vehicle.model}
                         </p>
