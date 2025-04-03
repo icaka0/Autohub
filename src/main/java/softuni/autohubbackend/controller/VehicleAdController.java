@@ -143,31 +143,42 @@ public class VehicleAdController {
 
     @PatchMapping("/{id}/status")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<VehicleAdDTO> updateVehicleAdStatus(
+    public ResponseEntity<?> updateVehicleAdStatus(
             @PathVariable UUID id,
             @RequestBody Map<String, String> statusUpdate,
             @AuthenticationPrincipal UserDetails userDetails) {
 
-        // Extract status from request body
-        String statusString = statusUpdate.get("status");
-        if (statusString == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        AdStatus status;
         try {
-            status = AdStatus.valueOf(statusString);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
+            // Extract status from request body
+            String statusString = statusUpdate.get("status");
+            if (statusString == null) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Status is required"));
+            }
+
+
+
+            AdStatus status;
+            try {
+                status = AdStatus.valueOf(statusString);
+            } catch (IllegalArgumentException e) {
+
+                return ResponseEntity.badRequest().body(Map.of("error", "Invalid status value: " + statusString));
+            }
+
+            // Find user by username
+            User user = userRepository.findByUsername(userDetails.getUsername())
+                    .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+            // Update ad status
+            VehicleAdDTO updatedAd = vehicleAdService.updateVehicleAdStatus(id, status, user.getId());
+
+
+            return ResponseEntity.ok(updatedAd);
+        } catch (Exception e) {
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Failed to update status: " + e.getMessage()));
         }
-
-        // Find user by username
-        User user = userRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
-
-        // Update ad status
-        VehicleAdDTO updatedAd = vehicleAdService.updateVehicleAdStatus(id, status, user.getId());
-        return ResponseEntity.ok(updatedAd);
     }
 
     @DeleteMapping("/{id}")
