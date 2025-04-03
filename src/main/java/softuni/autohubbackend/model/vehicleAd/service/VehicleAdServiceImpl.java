@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import softuni.autohubbackend.model.priceHistory.service.PriceHistoryService;
 import softuni.autohubbackend.web.dto.UserSummaryDTO;
 import softuni.autohubbackend.model.user.entity.User;
 import softuni.autohubbackend.model.user.repository.UserRepository;
@@ -33,21 +34,12 @@ public class VehicleAdServiceImpl implements VehicleAdService {
     private final VehicleAdRepository vehicleAdRepository;
     private final VehicleRepository vehicleRepository;
     private final UserRepository userRepository;
+    private final PriceHistoryService priceHistoryService;
 
     @Override
     @Transactional
     public VehicleAdDTO createVehicleAd(VehicleAdDTO vehicleAdDTO, UUID userId) {
-        // Removed this block that limits to one image:
-    /*
-    if (vehicleAdDTO.getImageUrls() != null && !vehicleAdDTO.getImageUrls().isEmpty()) {
-        // Keep only the first image to avoid exceeding column size
-        String firstImage = vehicleAdDTO.getImageUrls().get(0);
-        vehicleAdDTO.setImageUrls(Arrays.asList(firstImage));
 
-        // Log image size for debugging
-        System.out.println("Image size: " + firstImage.length());
-    }
-    */
 
         // Optional: Add some logging for debugging
         if (vehicleAdDTO.getImageUrls() != null) {
@@ -86,7 +78,11 @@ public class VehicleAdServiceImpl implements VehicleAdService {
         // Find the ad and check if the user is the owner
         VehicleAd vehicleAd = getVehicleAdWithOwnerCheck(adId, userId);
 
-        // Update vehicle details - this part is fine
+        // Check if price was changed and store the old price
+        BigDecimal oldPrice = vehicleAd.getPrice();
+        BigDecimal newPrice = vehicleAdDTO.getPrice();
+
+        // Update vehicle details
         Vehicle vehicle = vehicleAd.getVehicle();
         Vehicle updatedVehicle = mapToVehicleEntity(vehicleAdDTO.getVehicle());
         updatedVehicle.setId(vehicle.getId());
@@ -95,7 +91,7 @@ public class VehicleAdServiceImpl implements VehicleAdService {
         // Update ad details
         vehicleAd.setTitle(vehicleAdDTO.getTitle());
         vehicleAd.setDescription(vehicleAdDTO.getDescription());
-        vehicleAd.setPrice(vehicleAdDTO.getPrice());
+        vehicleAd.setPrice(newPrice);
         vehicleAd.setUpdatedAt(LocalDateTime.now());
         vehicleAd.setLocation(vehicleAdDTO.getLocation());
         vehicleAd.setContactPhone(vehicleAdDTO.getContactPhone());
@@ -108,6 +104,11 @@ public class VehicleAdServiceImpl implements VehicleAdService {
 
         // Save the updated ad
         vehicleAd = vehicleAdRepository.save(vehicleAd);
+
+        // Record price change if price was updated
+        if (oldPrice.compareTo(newPrice) != 0) {
+            priceHistoryService.recordPriceChange(adId, oldPrice, newPrice);
+        }
 
         // Map and return the DTO
         return mapToVehicleAdDTO(vehicleAd);
