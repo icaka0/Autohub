@@ -188,13 +188,20 @@ export const createVehicleAd = async (adData) => {
   }
 };
 
-// Update a vehicle ad status
-export const updateVehicleAdStatus = async (adId, status) => {
+/**
+ * Update vehicle ad status (activate/deactivate)
+ * @param {string} id - ID of the vehicle ad
+ * @param {string} status - New status ('ACTIVE', 'DEACTIVATED', etc.)
+ * @returns {Promise<Object>} Updated vehicle ad
+ */
+export const updateVehicleAdStatus = async (id, status) => {
   try {
-    const response = await fetch(`http://localhost:8080/api/vehicle-ads/${adId}/status`, {
+    console.log(`Updating status to: ${status} for ad ${id}`);
+    
+    const response = await fetch(`http://localhost:8080/api/vehicle-ads/${id}/status`, {
       method: 'PATCH',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ status }),
       credentials: 'include',
@@ -202,6 +209,7 @@ export const updateVehicleAdStatus = async (adId, status) => {
     });
     
     if (!response.ok) {
+      console.error(`Status update failed with code: ${response.status}`);
       throw new Error(`Failed to update ad status: ${response.status}`);
     }
     

@@ -47,20 +47,39 @@ const MyVehicleAds = () => {
     }
   };
   
-  const handleStatusToggle = async (adId, currentStatus) => {
+  const handleStatusToggle = async (ad) => {
     try {
-      // Toggle between ACTIVE and INACTIVE
-      const newStatus = currentStatus === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
+      let newStatus;
       
-      const updatedAd = await updateVehicleAdStatus(adId, newStatus);
+      // Determine the new status based on current status
+      if (ad.status === 'ACTIVE') {
+        newStatus = 'EXPIRED';
+      } else if (ad.status === 'EXPIRED' || ad.status === 'DEACTIVATED') {
+        newStatus = 'ACTIVE';
+      } else {
+        console.error(`Cannot toggle status from ${ad.status}`);
+        setError(`Cannot change status from ${ad.status}`);
+        return;
+      }
       
-      // Update the ads list
-      setVehicleAds(prev => 
-        prev.map(ad => ad.id === adId ? updatedAd : ad)
-      );
-    } catch (error) {
-      console.error('Error updating ad status:', error);
-      setError('Failed to update ad status. Please try again.');
+      console.log(`Changing status from ${ad.status} to ${newStatus} for ad ${ad.id}`);
+      
+      // Show loading state while updating
+      setError(null);
+      setLoading(true);
+      
+      // Call the API
+      await updateVehicleAdStatus(ad.id, newStatus);
+      
+      // Refresh the ads list
+      await fetchUserAds();
+      
+      console.log('Status updated successfully');
+    } catch (err) {
+      console.error('Error updating ad status:', err);
+      setError(`Failed to update status: ${err.message}`);
+    } finally {
+      setLoading(false);
     }
   };
   
@@ -97,6 +116,60 @@ const MyVehicleAds = () => {
       month: 'short', 
       day: 'numeric' 
     });
+  };
+  
+  // Add this function to calculate and show time remaining until expiration
+  const getExpirationInfo = (ad) => {
+    if (ad.status !== 'ACTIVE') {
+      return null;
+    }
+
+    // Calculate when the ad will expire - 2 minutes after last update
+    const lastUpdated = new Date(ad.updatedAt || ad.createdAt);
+    const expirationTime = new Date(lastUpdated.getTime() + (2 * 60 * 1000)); // 2 minutes in milliseconds
+    const now = new Date();
+    
+    // If already expired (shouldn't happen, but just in case)
+    if (expirationTime <= now) {
+      return { expired: true, message: 'Expired' };
+    }
+    
+    // Calculate minutes and seconds remaining
+    const msRemaining = expirationTime - now;
+    const minutesRemaining = Math.floor(msRemaining / 60000);
+    const secondsRemaining = Math.floor((msRemaining % 60000) / 1000);
+    
+    return { 
+      expired: false, 
+      message: `Expires in: ${minutesRemaining}m ${secondsRemaining}s` 
+    };
+  };
+  
+  // Add this function to handle renewing an ad
+  const handleRenewAd = async (adId) => {
+    try {
+      await updateVehicleAdStatus(adId, 'ACTIVE');
+      // Refresh the list of ads after updating
+      fetchUserAds();
+    } catch (err) {
+      console.error('Error renewing ad:', err);
+      setError('Failed to renew ad. Please try again.');
+    }
+  };
+  
+  // Add this function to the MyVehicleAds component
+  const fetchUserAds = async () => {
+    try {
+      setLoading(true);
+      const ads = await getUserVehicleAds();
+      setVehicleAds(ads || []);
+      setError(null);
+    } catch (error) {
+      console.error('Error fetching user ads:', error);
+      setError('Failed to refresh ads. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
   
   if (loading) {
@@ -195,7 +268,7 @@ const MyVehicleAds = () => {
                     <Link to={`/edit-ad/${ad.id}`} className="btn edit-btn">Edit Ad</Link>
                     <button 
                       className={`btn status-toggle-btn ${ad.status.toLowerCase()}`}
-                      onClick={() => handleStatusToggle(ad.id, ad.status)}
+                      onClick={() => handleStatusToggle(ad)}
                     >
                       {ad.status === 'ACTIVE' ? 'Deactivate' : 'Activate'}
                     </button>

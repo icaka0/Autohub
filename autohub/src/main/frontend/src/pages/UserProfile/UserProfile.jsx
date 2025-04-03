@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './UserProfile.scss';
-import { checkAuthStatus, logoutUser, getUserVehicleAds } from '../../services/api';
+import { checkAuthStatus, logoutUser, getUserVehicleAds, updateVehicleAdStatus } from '../../services/api';
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
@@ -43,6 +43,18 @@ const UserProfile = () => {
     } catch (err) {
       console.error('Logout error:', err);
       setError('Failed to logout. Please try again.');
+    }
+  };
+  
+  const handleRenewAd = async (adId) => {
+    try {
+      await updateVehicleAdStatus(adId, 'ACTIVE');
+      // Refresh the ads after renewal
+      const refreshedAds = await getUserVehicleAds();
+      setUserAds(refreshedAds || []);
+    } catch (err) {
+      console.error('Error renewing ad:', err);
+      setError('Failed to renew ad. Please try again.');
     }
   };
   
