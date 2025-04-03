@@ -1,0 +1,26 @@
+﻿# Compiled files
+target/
+*.class
+
+# Package Files
+*.jar
+*.war
+*.ear
+
+# IDE files
+.idea/
+*.iml
+*.iws
+.vscode/
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# Logs
+logs/
+*.log
+
+# OS specific
+.DS_Store
