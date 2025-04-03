@@ -82,6 +82,7 @@ const UserProfile = () => {
         </div>
         <div className="nav-buttons">
           <Link to="/browse" className="btn browse-btn">Browse Vehicles</Link>
+          <Link to="/favorites" className="btn favorites-btn">My Favorites</Link>
           <Link to="/my-ads" className="btn my-ads-btn">My Listings</Link>
           {user && user.role === 'ADMIN' && (
             <Link to="/admin" className="btn admin-btn">Admin Panel</Link>
@@ -129,8 +130,9 @@ const UserProfile = () => {
           </div>
           
           <div className="profile-actions">
-            <button className="btn edit-btn">Edit Profile</button>
-            <button className="btn change-password-btn">Change Password</button>
+            <Link to="/my-ads" className="btn view-listings-btn">My Listings</Link>
+            <Link to="/favorites" className="btn favorites-btn">My Favorites</Link>
+            <Link to="/create-ad" className="btn create-listing-btn">Create Listing</Link>
           </div>
           
           <div className="vehicle-listings">

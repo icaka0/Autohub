@@ -50,6 +50,7 @@ const Home = () => {
             <>
               <span className="welcome-message">Welcome, {currentUser.firstName}!</span>
               <Link to="/profile" className="btn profile-btn">Profile</Link>
+              <Link to="/favorites" className="btn favorites-btn">My Favorites</Link>
               <button onClick={handleLogout} className="btn logout-btn">Logout</button>
             </>
           ) : (

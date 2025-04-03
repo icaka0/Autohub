@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getVehicleAdById, checkAuthStatus, logoutUser, deleteVehicleAd } from '../../services/api';
+import { getVehicleAdById, checkAuthStatus, logoutUser, deleteVehicleAd, checkFavoriteStatus, addToFavorites, removeFromFavorites } from '../../services/api';
 import './VehicleAd.scss';
 
 const VehicleAd = () => {
@@ -13,6 +13,8 @@ const VehicleAd = () => {
   const [activeImage, setActiveImage] = useState(0);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [favoritesLoading, setFavoritesLoading] = useState(false);
   
   useEffect(() => {
     const fetchData = async () => {
@@ -64,6 +66,21 @@ const VehicleAd = () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
   }, [ad]);
+  
+  useEffect(() => {
+    const checkFavorite = async () => {
+      if (currentUser && ad) {
+        try {
+          const favoriteStatus = await checkFavoriteStatus(ad.id);
+          setIsFavorite(favoriteStatus);
+        } catch (err) {
+          console.error('Error checking favorite status:', err);
+        }
+      }
+    };
+    
+    checkFavorite();
+  }, [currentUser, ad]);
   
   const handleContactSeller = () => {
     if (ad && ad.contactPhone) {
@@ -126,6 +143,27 @@ const VehicleAd = () => {
     };
   }, [lightboxOpen, closeLightbox]);
   
+  const toggleFavorite = async () => {
+    if (!currentUser) {
+      navigate('/login');
+      return;
+    }
+    
+    setFavoritesLoading(true);
+    try {
+      if (isFavorite) {
+        await removeFromFavorites(ad.id);
+      } else {
+        await addToFavorites(ad.id);
+      }
+      setIsFavorite(!isFavorite);
+    } catch (err) {
+      console.error('Error toggling favorite:', err);
+    } finally {
+      setFavoritesLoading(false);
+    }
+  };
+  
   if (loading) return <div className="loading">Loading vehicle details...</div>;
   if (error) return <div className="error">{error}</div>;
   if (!ad) return <div className="error">Vehicle ad not found</div>;
@@ -141,6 +179,7 @@ const VehicleAd = () => {
           {currentUser ? (
             <>
               <Link to="/my-ads" className="btn my-ads-btn">My Ads</Link>
+              <Link to="/favorites" className="btn favorites-btn">My Favorites</Link>
               <button onClick={handleLogout} className="btn logout-btn">Logout</button>
             </>
           ) : (
@@ -370,6 +409,20 @@ const VehicleAd = () => {
           </div>
         </div>
       )}
+      
+      <button 
+        onClick={toggleFavorite}
+        disabled={favoritesLoading || ad.seller.id === currentUser?.id}
+        className={`btn favorite-btn ${isFavorite ? 'active' : ''}`}
+      >
+        {favoritesLoading ? (
+          'Processing...'
+        ) : isFavorite ? (
+          <>❤️ Remove from Favorites</>
+        ) : (
+          <>🤍 Add to Favorites</>
+        )}
+      </button>
     </div>
   );
 };

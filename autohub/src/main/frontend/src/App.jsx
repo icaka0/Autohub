@@ -14,6 +14,8 @@ import './App.css';
 import './pages/login/login.scss';
 import './pages/register/register.scss';
 import { AuthProtectedRoute, OwnerProtectedRoute, AdminProtectedRoute } from './components/ProtectedRoute';
+import Favorites from './pages/favorites/Favorites';
+import { Link } from 'react-router-dom';
 
 function App() {
 
@@ -60,6 +62,14 @@ function App() {
               <AdminProtectedRoute>
                 <AdminPanel />
               </AdminProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/favorites" 
+            element={
+              <AuthProtectedRoute>
+                <Favorites />
+              </AuthProtectedRoute>
             } 
           />
           <Route path="*" element={<Navigate to="/" replace />} /> 

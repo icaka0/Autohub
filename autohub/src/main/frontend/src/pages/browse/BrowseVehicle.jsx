@@ -146,6 +146,7 @@ const BrowseVehicle = () => {
         ) : currentUser ? (
           <div className="nav-buttons">
             <Link to="/profile" className="btn profile-btn">Profile</Link>
+            <Link to="/favorites" className="btn favorites-btn">My Favorites</Link>
             <button onClick={handleLogout} className="btn logout-btn">Logout</button>
           </div>
         ) : (

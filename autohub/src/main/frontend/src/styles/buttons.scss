@@ -73,12 +73,89 @@
   }
 }
 
-.ads-btn {
+.ads-btn, .my-ads-btn {
   background-color: #10b981; /* Teal */
   color: white;
   
   &:hover {
     background-color: #059669;
+  }
+}
+
+/* Add missing button styles */
+.favorites-btn {
+  background-color: #9c27b0; /* Purple */
+  color: white;
+  
+  &:hover {
+    background-color: #7b1fa2;
+  }
+}
+
+.create-ad-btn, .create-listing-btn {
+  background-color: #2563eb; /* Blue */
+  color: white;
+  
+  &:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-2px);
+  }
+}
+
+.view-btn {
+  background-color: #3498db; /* Blue */
+  color: white;
+  
+  &:hover {
+    background-color: #2980b9;
+  }
+}
+
+.view-listings-btn, .view-all-btn {
+  background-color: #4b5563; /* Gray */
+  color: white;
+  
+  &:hover {
+    background-color: #374151;
+  }
+}
+
+.create-btn {
+  background-color: #2563eb; /* Blue */
+  color: white;
+  
+  &:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-2px);
+  }
+}
+
+.favorite-btn {
+  background-color: #ffffff;
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+  
+  &:hover {
+    background-color: #fff5f5;
+  }
+  
+  &.active {
+    background-color: #e74c3c;
+    color: white;
+    
+    &:hover {
+      background-color: #c0392b;
+    }
+  }
+}
+
+.remove-btn {
+  background-color: #ffffff;
+  color: #e74c3c;
+  border: 1px solid #e74c3c;
+  
+  &:hover {
+    background-color: #fff5f5;
   }
 }
 

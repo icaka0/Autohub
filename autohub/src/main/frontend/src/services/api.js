@@ -358,3 +358,93 @@ export const compressImage = async (file) => {
     img.src = URL.createObjectURL(file);
   });
 };
+
+/**
+ * Get user's favorite vehicle ads
+ * @returns {Promise<Array>} List of favorited vehicle ads
+ */
+export const getFavorites = async () => {
+  try {
+    const response = await fetch('http://localhost:8080/api/favorites', {
+      credentials: 'include',
+      mode: 'cors'
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch favorites: ${response.status}`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching favorites:', error);
+    throw error;
+  }
+};
+
+/**
+ * Add a vehicle ad to favorites
+ * @param {string} adId - ID of the vehicle ad to favorite
+ * @returns {Promise<void>}
+ */
+export const addToFavorites = async (adId) => {
+  try {
+    const response = await fetch(`http://localhost:8080/api/favorites/${adId}`, {
+      method: 'POST',
+      credentials: 'include',
+      mode: 'cors'
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to add to favorites: ${response.status}`);
+    }
+  } catch (error) {
+    console.error('Error adding to favorites:', error);
+    throw error;
+  }
+};
+
+/**
+ * Remove a vehicle ad from favorites
+ * @param {string} adId - ID of the vehicle ad to unfavorite
+ * @returns {Promise<void>}
+ */
+export const removeFromFavorites = async (adId) => {
+  try {
+    const response = await fetch(`http://localhost:8080/api/favorites/${adId}`, {
+      method: 'DELETE',
+      credentials: 'include',
+      mode: 'cors'
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to remove from favorites: ${response.status}`);
+    }
+  } catch (error) {
+    console.error('Error removing from favorites:', error);
+    throw error;
+  }
+};
+
+/**
+ * Check if a vehicle ad is in the user's favorites
+ * @param {string} adId - ID of the vehicle ad to check
+ * @returns {Promise<boolean>} True if ad is favorited, false otherwise
+ */
+export const checkFavoriteStatus = async (adId) => {
+  try {
+    const response = await fetch(`http://localhost:8080/api/favorites/${adId}/status`, {
+      credentials: 'include',
+      mode: 'cors'
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Failed to check favorite status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data.isFavorite;
+  } catch (error) {
+    console.error('Error checking favorite status:', error);
+    return false;
+  }
+};

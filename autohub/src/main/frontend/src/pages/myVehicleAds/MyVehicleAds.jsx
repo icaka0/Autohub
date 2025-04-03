@@ -122,9 +122,11 @@ const MyVehicleAds = () => {
         <div className="logo-container">
           <Link to="/" className="logo">AutoHub</Link>
         </div>
-        <div className="header-actions">
-          <Link to="/browse" className="btn browse-btn">Browse Vehicles</Link>
+        <div className="nav-buttons">
+          <Link to="/browse" className="btn browse-btn">Browse</Link>
           <Link to="/profile" className="btn profile-btn">Profile</Link>
+          <Link to="/favorites" className="btn favorites-btn">My Favorites</Link>
+          <Link to="/create-ad" className="btn create-ad-btn">Create Ad</Link>
           <button onClick={handleLogout} className="btn logout-btn">Logout</button>
         </div>
       </header>
