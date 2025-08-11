@@ -1,7 +1,5 @@
 Full-stack Spring + React web app for buying and selling vehicles.
 
-// TODO: The project needs Unit,Integration and API tests to be done as well as additional microservice for ad reviews 
-
 Home page
 ![image](https://github.com/user-attachments/assets/92eae159-dc48-4c5a-b6a9-ac9b27ad97aa)
 
